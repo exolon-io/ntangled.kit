@@ -1,0 +1,17 @@
+{
+	"name": "@ntangled/kit",
+	"version": "0.0.0-alpha.0",
+	"main": "dist/main.js",
+	"types": "dist/main.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc",
+		"prepublishOnly": "npm run build"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"typescript": "^5.9.3"
+	}
+}
