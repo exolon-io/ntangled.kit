@@ -13,7 +13,26 @@ export class NullError extends Error {
 	}
 }
 
-// Overload for async callback
+/**
+ * Wraps a callback function (sync or async) and returns a function that executes the callback,
+ * capturing errors and returning them in a tuple. For async callbacks, errors are caught and returned
+ * as the first element of the tuple, and the resolved value as the second. For sync callbacks, errors
+ * are caught and returned similarly.
+ *
+ * @template Callback - The type of the callback function.
+ * @param callback - The callback function to wrap.
+ * @returns A function that, when called, returns a tuple: [error, result]. If no error occurs, error is null.
+ *          For async callbacks, returns a Promise resolving to the tuple.
+ *
+ * @example
+ * // Synchronous usage
+ * const safeAdd = w((a: number, b: number) => a + b);
+ * const [err, sum] = safeAdd(1, 2);
+ *
+ * // Asynchronous usage
+ * const safeFetch = w(async (url: string) => fetch(url));
+ * const [err, response] = await safeFetch('https://example.com');
+ */
 export function w<Callback extends (...params: any[]) => Promise<any>>(
 	callback: Callback,
 ): (
@@ -46,7 +65,32 @@ export function w<Callback extends (...params: any[]) => any>(callback: Callback
 	};
 }
 
-// Overload for async callback
+/**
+ * Executes a callback function (sync or async) immediately, capturing errors and returning them in a tuple.
+ * You can pass an already defined function (e.g. x(foo())) or an anonymous function (e.g. x(() => 'hello world')).
+ * Both can be async.
+ *
+ * @template Callback - The type of the callback function.
+ * @param callback - The callback function to execute.
+ * @param params - Parameters to pass to the callback function.
+ * @returns A tuple: [error, result]. If no error occurs, error is null.
+ *          For async callbacks, returns a Promise resolving to the tuple.
+ *
+ * @example
+ * // Synchronous usage with anonymous function
+ * const [err, result] = x(() => 'hello world');
+ *
+ * // Synchronous usage with defined function
+ * function foo() { return 42; }
+ * const [err, result] = x(foo);
+ *
+ * // Asynchronous usage with anonymous function
+ * const [err, result] = await x(async () => await fetch('https://example.com'));
+ *
+ * // Asynchronous usage with defined function
+ * async function fetchData() { return await fetch('https://example.com'); }
+ * const [err, result] = await x(fetchData);
+ */
 export function x<Callback extends (...params: any[]) => Promise<any>>(
 	callback: Callback,
 	...params: Parameters<Callback>

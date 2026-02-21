@@ -1,6 +1,6 @@
 {
 	"name": "@ntangled/kit",
-	"version": "0.0.0-alpha.6",
+	"version": "0.0.1",
 	"description": "A TypeScript utility package for safe function execution and other helpers.",
 	"author": "Stephan D. <stephan.mdd@gmail.com>",
 	"homepage": "https://github.com/ntangled/kit#readme",
